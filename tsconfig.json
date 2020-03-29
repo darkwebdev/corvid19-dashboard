@@ -1,23 +1,31 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "lib": [ "dom", "es2017" ],
-//    "allowJs": false,
-    "checkJs": false,
-    "jsx": "react",
+    "outDir": "./build",
     "sourceMap": true,
-    "outDir": "dist",
-    "rootDir": ".",
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "allowJs": false,
+    "checkJs": false,
     "strict": true,
+    "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "suppressImplicitAnyIndexErrors": true,
+    "module": "esnext",
+    "target": "es2018",
+    "jsx": "react",
+    "moduleResolution": "node",
     "baseUrl": "."
   },
+  "include": [
+    "./src"
+  ],
   "exclude": [
-//    "node_modules",
-    "dist",
-    "**/__tests__/*"
-  ]
+    "./node_modules/"
+  ],
+  "lib": [ "dom", "es2017" ],
+  "paths": {
+    "*": [
+      "@types/*"
+    ]
+  }
 }

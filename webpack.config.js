@@ -1,67 +1,74 @@
-const { HotModuleReplacementPlugin } = require('webpack');
-const { join } = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { WatchIgnorePlugin } = require('webpack');
 
 module.exports = {
-  target: 'web',
   mode: 'development',
 
-  entry: {
-    home: [
-      'react-hot-loader/patch',
-      'webpack-hot-middleware/client',
-      './pages/home/browser.tsx'
-    ]
-  },
-  // watch: true,
+  entry: [
+    'react-hot-loader/patch',
+    './src/index.tsx'
+  ],
 
-  context: join(__dirname, '../src'),
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        react: {
+          test: /node_modules\/react/,
+          name: 'react',
+          chunks: 'all',
+          reuseExistingChunk: true
+        },
+        highcharts: {
+          test: /node_modules\/highcharts/,
+          name: 'highcharts',
+          chunks: 'all',
+          reuseExistingChunk: true
+        }
+      }
+    }
+  },
 
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    extensions: [ '.ts', '.tsx', '.js' ],
     alias: {
       'react-dom': '@hot-loader/react-dom'
     }
   },
 
-  externals: {
-    'react': 'React',
-    'react-dom': 'ReactDOM',
-  },
-
-  node: {
-    dgram: 'empty',
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty',
-    child_process: 'empty'
-  },
-
   module: {
     rules: [
       {
-        test: /\.(js|ts)x?$/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            // cacheDirectory: true,
-            "presets": [
-              "@babel/preset-env",
-              "@babel/preset-typescript",
-              "@babel/preset-react"
-            ],
-            "plugins": [
-              "react-hot-loader/babel"
-            ]
-          }
-        },
-        // exclude: /node_modules/
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
+        exclude: /node_modules/,
+        options: {
+          experimentalFileCaching: true,
+          transpileOnly: true
+        }
       }
     ]
   },
 
   plugins: [
-    new HotModuleReplacementPlugin()
+    new WatchIgnorePlugin([
+      /\.js$/,
+      /\.d\.ts$/
+    ]),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: './src/index.html',
+      chunks: ['react', 'highcharts', 'main'],
+      hash: false
+    })
   ],
 
-  devtool: 'cheap-module-eval-source-map'
+  devServer: {
+    port: 8080,
+    hot: true,
+    open: true,
+    contentBase: 'dist',
+    watchOptions: {
+      ignored: ['node_modules', 'dist']
+    }
+  }
 };
