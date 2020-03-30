@@ -38,7 +38,7 @@ module.exports = merge.smart(common, {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './src/index.html',
-      chunks: ['react', 'highcharts', 'main'],
+      chunks: ['react', 'main'],
       hash: false
     })
   ],
@@ -47,9 +47,9 @@ module.exports = merge.smart(common, {
     port: 8080,
     hot: true,
     open: true,
-    contentBase: 'dist',
+    contentBase: 'docs',
     watchOptions: {
-      ignored: ['node_modules', 'dist']
+      ignored: ['node_modules', 'docs']
     }
   },
 

@@ -5,6 +5,7 @@
   "scripts": {
     "build": "yarn webpack --config=webpack.dev.js",
     "build:prod": "yarn webpack --config=webpack.prod.js",
+    "build:analyze": "WEBPACK_BUNDLE_ANALYSER=true yarn webpack --config=webpack.prod.js",
     "watch": "yarn webpack-dev-server --progress --config=webpack.dev.js",
     "start": "yarn build && yarn watch"
   },
@@ -28,6 +29,7 @@
     "ts-loader": "^6.2.2",
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
+    "webpack-bundle-analyzer": "^3.6.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
     "webpack-merge": "^4.2.2"

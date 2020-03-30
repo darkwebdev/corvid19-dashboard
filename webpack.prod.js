@@ -1,6 +1,7 @@
 const merge = require('webpack-merge');
 const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const common = require('./webpack.common.js');
 
 module.exports = merge.smart(common, {
@@ -29,8 +30,9 @@ module.exports = merge.smart(common, {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './src/index.html',
-      chunks: ['react', 'highcharts', 'main'],
+      chunks: ['react', 'main'],
       hash: true
-    })
+    }),
+    process.env.WEBPACK_BUNDLE_ANALYSER ? new BundleAnalyzerPlugin() : () => {}
   ]
 });
