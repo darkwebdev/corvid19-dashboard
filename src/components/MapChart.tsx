@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC } from 'react';
 import Highcharts from 'highcharts/highmaps';
 import HighchartsReact from 'highcharts-react-official';
 import mapData from '@highcharts/map-collection/custom/world.geo.json';

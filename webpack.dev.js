@@ -1,7 +1,10 @@
+const { WatchIgnorePlugin, HotModuleReplacementPlugin } = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { WatchIgnorePlugin } = require('webpack');
+const merge = require('webpack-merge');
 
-module.exports = {
+const common = require('./webpack.common');
+
+module.exports = merge.smart(common, {
   mode: 'development',
 
   entry: [
@@ -9,27 +12,7 @@ module.exports = {
     './src/index.tsx'
   ],
 
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        react: {
-          test: /node_modules\/react/,
-          name: 'react',
-          chunks: 'all',
-          reuseExistingChunk: true
-        },
-        highcharts: {
-          test: /node_modules\/highcharts/,
-          name: 'highcharts',
-          chunks: 'all',
-          reuseExistingChunk: true
-        }
-      }
-    }
-  },
-
   resolve: {
-    extensions: [ '.ts', '.tsx', '.js' ],
     alias: {
       'react-dom': '@hot-loader/react-dom'
     }
@@ -50,10 +33,8 @@ module.exports = {
   },
 
   plugins: [
-    new WatchIgnorePlugin([
-      /\.js$/,
-      /\.d\.ts$/
-    ]),
+    new WatchIgnorePlugin([ /\.js$/ ]),
+    new HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './src/index.html',
@@ -70,5 +51,7 @@ module.exports = {
     watchOptions: {
       ignored: ['node_modules', 'dist']
     }
-  }
-};
+  },
+
+  devtool: 'cheap-module-eval-source-map'
+});

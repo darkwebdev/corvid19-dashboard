@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "yarn webpack --config=webpack.config.js",
-    "watch": "yarn webpack-dev-server --progress --config=webpack.config.js",
+    "build": "yarn webpack --config=webpack.dev.js",
+    "build:prod": "yarn webpack --config=webpack.prod.js",
+    "watch": "yarn webpack-dev-server --progress --config=webpack.dev.js",
     "start": "yarn build && yarn watch"
   },
   "dependencies": {
@@ -23,10 +24,12 @@
     "@types/webpack": "^4.41.8",
     "@types/webpack-env": "^1.15.1",
     "html-webpack-plugin": "^4.0.3",
+    "terser-webpack-plugin": "^2.3.5",
     "ts-loader": "^6.2.2",
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.10.3",
+    "webpack-merge": "^4.2.2"
   }
 }
