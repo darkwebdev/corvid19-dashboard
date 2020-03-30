@@ -1,4 +1,4 @@
-type CountryCodes = {
+type Codes = {
   slug: string;
   name: string;
   alpha2: string;
@@ -7,7 +7,18 @@ type CountryCodes = {
   iso_3166_2: string;
 }
 
-export const codes: CountryCodes[] = [
+export const isoA2 = (countrySlug: string, countryName: string): string => {
+  const countryCode = countryCodes.find(({ slug, name}) => name === countryName || slug === countrySlug);
+
+  if (!countryCode) {
+    console.error('Country code not found for', countrySlug, countryName);
+    return '??';
+  }
+
+  return countryCode.alpha2;
+};
+
+const countryCodes: Codes[] = [
   {
     "slug": "afghanistan",
     "name": "Afghanistan",
@@ -145,8 +156,8 @@ export const codes: CountryCodes[] = [
     "iso_3166_2": "ISO 3166-2:BS"
   },
   {
-    "slug": "bahamas-the",
-    "name": "Bahamas, The",
+    "slug": "the-bahamas",
+    "name": "The Bahamas",
     "alpha2": "BS",
     "alpha3": "BHS",
     "numerical": "044",
@@ -441,12 +452,20 @@ export const codes: CountryCodes[] = [
     "iso_3166_2": "ISO 3166-2:CG"
   },
   {
-    "slug": "congo-(kinshasa)",
-    "name": "Congo (Kinshasa)",
+    "slug": "congo-(Brazzaville)",
+    "name": "Congo (Brazzaville)",
     "alpha2": "CG",
     "alpha3": "COG",
     "numerical": "178",
     "iso_3166_2": "ISO 3166-2:CG"
+  },
+  {
+    "slug": "congo-(kinshasa)",
+    "name": "Congo (Kinshasa)",
+    "alpha2": "CD",
+    "alpha3": "COD",
+    "numerical": "180",
+    "iso_3166_2": "ISO 3166-2:CD"
   },
   {
     "slug": "congo-democratic-republic-of-the",
@@ -474,7 +493,7 @@ export const codes: CountryCodes[] = [
   },
   {
     "slug": "cote-divoire",
-    "name": "Côte d'Ivoire",
+    "name": "Cote d'Ivoire",
     "alpha2": "CI",
     "alpha3": "CIV",
     "numerical": "384",
@@ -1056,7 +1075,7 @@ export const codes: CountryCodes[] = [
     "numerical": "418",
     "iso_3166_2": "ISO 3166-2:LA"
   },
- {
+  {
     "slug": "laos",
     "name": "Laos",
     "alpha2": "LA",
@@ -2080,7 +2099,7 @@ export const codes: CountryCodes[] = [
     "numerical": "862",
     "iso_3166_2": "ISO 3166-2:VE"
   },
-{
+  {
     "slug": "venezuela",
     "name": "Venezuela",
     "alpha2": "VE",
@@ -2162,20 +2181,4 @@ export const codes: CountryCodes[] = [
   }
 ];
 
-export const ignored: string[] =
-  [
-    'Iran (Islamic Republic of)',
-    'Korea, South',
-    'Republic of Korea',
-    'Russian Federation',
-    'Taiwan*',
-    'Viet Nam',
-    'Kosovo',
-    'West Bank and Gaza',
-    'Others',
-    'Cruise Ship',
-    'Diamond Princess',
-    'Congo (Brazzaville)',
-    'Gambia, The',
-    'The Bahamas'
-  ];
+export default isoA2;

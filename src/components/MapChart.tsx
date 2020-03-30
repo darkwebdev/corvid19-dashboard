@@ -3,6 +3,7 @@ import Highcharts from 'highcharts/highmaps';
 import HighchartsReact from 'highcharts-react-official';
 import mapData from '@highcharts/map-collection/custom/world.geo.json';
 import highchartsMap from 'highcharts/modules/map';
+import { colors } from './const';
 
 highchartsMap(Highcharts);
 
@@ -14,19 +15,21 @@ type Props = {
   title: string;
   data: CountryData[];
   valueSuffix?: string;
+  color?: string;
 }
 
-const MapChart: FC<Props> = ({ title, data, valueSuffix= 'ppl' }) => {
+const MapChart: FC<Props> = ({ title, data, valueSuffix= 'ppl', color = colors.dead }) => {
+  const colorAxisType = data.some(({ value }) => !value) ? 'linear' : 'logarithmic';
   const options: Highcharts.Options = {
     title: {
       text: title
     },
     colorAxis: {
-      min: 0,
-      // type: 'logarithmic',
+      type: colorAxisType,
       stops: [
-        [0, '#FFEFEF'],
-        [1, '#FF0000']
+        [0, '#fff'],
+        // [0.5, color+'66'],
+        [1, color]
       ]
     },
     tooltip: {

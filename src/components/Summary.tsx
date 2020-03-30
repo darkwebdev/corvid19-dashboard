@@ -1,8 +1,13 @@
 import { hot } from 'react-hot-loader/root';
 import React, { FC, useEffect, useState } from 'react';
+
 import Table from './Table';
 import MapChart from './MapChart';
-import { codes, ignored } from './countries';
+import { ignored } from './data/ignored';
+import { colors } from './const';
+import { hoursSince } from './utils';
+import isoA2 from './data/codes';
+import countryPopulation from './data/population';
 
 export type Country = {
   Country: string;
@@ -10,11 +15,13 @@ export type Country = {
   IsoA2?: string;
   NewConfirmed: number;
   TotalConfirmed: number;
+  TotalConfirmedPercent: number;
   NewDeaths: number;
   TotalDeaths: number;
   TotalDeathsPercent?: number;
   NewRecovered: number;
   TotalRecovered: number;
+  Population?: number;
 }
 
 type Summary = {
@@ -38,43 +45,39 @@ const Summary: FC = () => {
   }, []);
 
   const filteredCountries = !summary ? [] : summary.Countries.filter(({ Country, TotalConfirmed }) =>
-    !ignored.includes(Country) && TotalConfirmed);
+    !ignored.includes(Country) && TotalConfirmed > 100);
 
   const enrichedCountries = filteredCountries.map(country => ({
     ...country,
     IsoA2: isoA2(country.Slug, country.Country),
-    TotalDeathsPercent: country.TotalConfirmed === 0 ? 0 : Math.round((country.TotalDeaths * 100) / country.TotalConfirmed * 10) / 10
+    Population: countryPopulation(country.Country)
   }));
 
-  const mapDataSick = enrichedCountries.map(({ IsoA2, TotalConfirmed }) => ({ 'iso-a2': IsoA2, value: TotalConfirmed }));
-  const mapDataDead = enrichedCountries.map(({ IsoA2, TotalDeathsPercent }) => ({ 'iso-a2': IsoA2, value: TotalDeathsPercent }));
+  const calculatedCountries = enrichedCountries.map(country => ({
+    ...country,
+    TotalDeathsPercent: !country.TotalConfirmed ? 0 : Math.round((country.TotalDeaths * 100) / country.TotalConfirmed * 10) / 10,
+    TotalConfirmedPercent: !country.Population ? 0 : Math.ceil((country.TotalConfirmed * 100) / country.Population * 100),
+  }));
+
+  const mapDataSick = calculatedCountries.map(({ IsoA2, TotalConfirmed }) => ({ 'iso-a2': IsoA2, value: TotalConfirmed }));
+  const mapDataSickPer1 = calculatedCountries.map(({ IsoA2, TotalConfirmedPercent }) => ({ 'iso-a2': IsoA2, value: TotalConfirmedPercent }));
+  const mapDataDead = calculatedCountries.map(({ IsoA2, TotalDeathsPercent }) => ({ 'iso-a2': IsoA2, value: TotalDeathsPercent }));
 
   return <>
-    <h2>Summary</h2>
     {loading && <p>Loading data...</p>}
     {summary && <>
-      <p>Last update: {`${new Date(summary.Date).toLocaleString()}`}</p>
+      <p>Updated {hoursSince(summary.Date)} hours ago</p>
       <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-        <Table countries={enrichedCountries} />
+        <Table countries={calculatedCountries} />
         <section>
-          <MapChart title="Sick, ppl" data={mapDataSick} />
+          <MapChart title="Sick, ppl" data={mapDataSick} color={colors.sick} />
+          <MapChart title="Sick, per 1% population" data={mapDataSickPer1} color={colors.sick} />
           <MapChart title="Dead, % of Sick" data={mapDataDead} valueSuffix='%'/>
         </section>
       </div>
     </>}
     {error && <p>{error}</p>}
   </>;
-};
-
-const isoA2 = (countrySlug: string, countryName: string) => {
-  const countryCode = codes.find(({ slug, name}) => name === countryName || slug === countrySlug);
-
-  if (!countryCode) {
-    console.error('Country code not found for', countrySlug, countryName);
-    return '??';
-  }
-
-  return countryCode.alpha2;
 };
 
 export default hot(Summary);
