@@ -1,13 +1,13 @@
 import { hot } from 'react-hot-loader/root';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, lazy, useEffect, useState, Suspense } from 'react';
 
 import Table from './Table';
-import MapChart from './MapChart';
 import { ignored } from './data/ignored';
 import { colors } from './const';
 import { hoursSince } from './utils';
 import isoA2 from './data/codes';
 import countryPopulation from './data/population';
+const MapChart = lazy(() => import(/* webpackChunkName: 'mapchart' */'./MapChart'));
 
 export type Country = {
   Country: string;
@@ -70,9 +70,11 @@ const Summary: FC = () => {
       <div style={{ display: 'flex', alignItems: 'flex-start' }}>
         <Table countries={calculatedCountries} />
         <section>
-          <MapChart title="Sick, ppl" data={mapDataSick} color={colors.sick} />
-          <MapChart title="Sick, per 1% population" data={mapDataSickPer1} color={colors.sick} />
-          <MapChart title="Dead, % of Sick" data={mapDataDead} valueSuffix='%'/>
+          <Suspense fallback={<p>Loading maps...</p>}>
+            <MapChart title="Sick, ppl" data={mapDataSick} color={colors.sick} />
+            <MapChart title="Sick, per 1% population" data={mapDataSickPer1} color={colors.sick} />
+            <MapChart title="Dead, % of Sick" data={mapDataDead} valueSuffix='%'/>
+          </Suspense>
         </section>
       </div>
     </>}
