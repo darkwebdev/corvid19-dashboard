@@ -6,3 +6,5 @@ export enum colors {
   dead = '#e58b88',
   deadLight = '#e58b8866',
 }
+
+export const mobileMaxWidth = 768;

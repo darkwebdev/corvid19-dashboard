@@ -8,6 +8,7 @@ import isoA2 from '../data/codes';
 import countryPopulation from '../data/population';
 import useMobile from '../useMobile';
 import Table from './Table';
+import Tabs from './Tabs';
 const MapChart = lazy(() => import(/* webpackChunkName: 'mapchart' */'./MapChart'));
 
 export type Country = {
@@ -35,6 +36,9 @@ const Summary: FC = () => {
   const [summary, setSummary] = useState<Summary|undefined>();
   const [error, setError] = useState<string|undefined>();
   const [loading, setLoading] = useState<boolean>(true);
+  const [tableVisible, setTableVisible] = useState<boolean>(true);
+  const [mapsVisible, setMapsVisible] = useState<boolean>(false);
+  const [chartsVisible, setChartsVisible] = useState<boolean>(false);
   const isMobile = useMobile();
 
   useEffect(() => {
@@ -67,21 +71,36 @@ const Summary: FC = () => {
   const mapDataSickPer1 = calculatedCountries.map(({ IsoA2, TotalConfirmedPercent }) => ({ 'iso-a2': IsoA2, value: TotalConfirmedPercent }));
   const mapDataDead = calculatedCountries.map(({ IsoA2, TotalDeathsPercent }) => ({ 'iso-a2': IsoA2, value: TotalDeathsPercent }));
 
+  const tabs = [{
+    text: 'Table',
+    onClick: () => { setTableVisible(true); setMapsVisible(false); }
+  },{
+    text: 'Maps',
+    onClick: () => { setTableVisible(false); setMapsVisible(true); }
+  }];
+
   return <>
     {loading && <p>Loading data...</p>}
     {summary && <>
       <p>Updated {hoursSince(summary.Date)} hours ago</p>
+
+      {isMobile && <Tabs tabs={tabs}/>}
+
       <div style={{ display: isMobile ? 'block' : 'flex', alignItems: 'flex-start' }}>
-        <section style={{ overflow: 'scroll' }}>
-          <Table countries={calculatedCountries} />
-        </section>
-        <section>
-          <Suspense fallback={<p>Loading maps...</p>}>
-            <MapChart title="Sick, ppl" data={mapDataSick} color={colors.sick} />
-            <MapChart title="Sick, per 1% population" data={mapDataSickPer1} color={colors.sick} />
-            <MapChart title="Dead, % of Sick" data={mapDataDead} valueSuffix='%'/>
-          </Suspense>
-        </section>
+        {(tableVisible || !isMobile) &&
+          <section style={{ overflow: 'scroll' }}>
+            <Table countries={calculatedCountries} />
+          </section>
+        }
+        {(mapsVisible || !isMobile) &&
+          <section>
+            <Suspense fallback={<p>Loading maps...</p>}>
+              <MapChart title="Sick, ppl" data={mapDataSick} color={colors.sick}/>
+              <MapChart title="Sick, per 1% population" data={mapDataSickPer1} color={colors.sick}/>
+              <MapChart title="Dead, % of Sick" data={mapDataDead} valueSuffix='%'/>
+            </Suspense>
+          </section>
+        }
       </div>
     </>}
     {error && <p>{error}</p>}
