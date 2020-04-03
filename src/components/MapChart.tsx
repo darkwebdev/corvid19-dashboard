@@ -5,8 +5,8 @@ import mapData from '@highcharts/map-collection/custom/world.geo.json';
 import { colors } from './const';
 
 type CountryData = {
-  'iso-a2': string;
-  value: number;
+  'iso-a2'?: string;
+  value?: number;
 }
 type Props = {
   title: string;

@@ -21,6 +21,7 @@ export type Country = {
   TotalDeathsPercent?: number;
   NewRecovered: number;
   TotalRecovered: number;
+  TotalRecoveredPercent?: number;
   Population?: number;
 }
 
@@ -53,10 +54,11 @@ const Summary: FC = () => {
     Population: countryPopulation(country.Country)
   }));
 
-  const calculatedCountries = enrichedCountries.map(country => ({
+  const calculatedCountries: Country[] = enrichedCountries.map(country => ({
     ...country,
-    TotalDeathsPercent: !country.TotalConfirmed ? 0 : Math.round((country.TotalDeaths * 100) / country.TotalConfirmed * 10) / 10,
     TotalConfirmedPercent: !country.Population ? 0 : Math.ceil((country.TotalConfirmed * 100) / country.Population * 100),
+    TotalRecoveredPercent: !country.TotalConfirmed ? 0 : Math.ceil((country.TotalRecovered * 100) / country.TotalConfirmed * 10) / 10,
+    TotalDeathsPercent: !country.TotalConfirmed ? 0 : Math.round((country.TotalDeaths * 100) / country.TotalConfirmed * 10) / 10,
   }));
 
   const mapDataSick = calculatedCountries.map(({ IsoA2, TotalConfirmed }) => ({ 'iso-a2': IsoA2, value: TotalConfirmed }));

@@ -22,7 +22,7 @@ const Index: FC<Props> = ({ countries = [] }) => {
     <tr>
       <th style={{ width: '18ch' }}>Country</th>
       <th colSpan={3} style={{ background: colors.sickLight }}>Sick</th>
-      <th colSpan={2} style={{ background: colors.healthyLight }}>Recovered</th>
+      <th colSpan={3} style={{ background: colors.healthyLight }}>Recovered</th>
       <th colSpan={3} style={{ background: colors.deadLight }}>Dead</th>
     </tr>
     <tr>
@@ -42,7 +42,7 @@ const Index: FC<Props> = ({ countries = [] }) => {
       {sortedCountries.map(({
         Country,
         TotalConfirmed, TotalConfirmedPercent, NewConfirmed,
-        TotalRecovered, NewRecovered,
+        TotalRecovered, TotalRecoveredPercent, NewRecovered,
         TotalDeaths, TotalDeathsPercent, NewDeaths
       }, i) =>
         <tr key={i}>
@@ -51,6 +51,7 @@ const Index: FC<Props> = ({ countries = [] }) => {
           <td style={{ background: colors.sickLight }}>{TotalConfirmedPercent}</td>
           <td style={{ background: colors.sickLight }}>{NewConfirmed ? `+${NewConfirmed}` : ''}</td>
           <td style={{ background: colors.healthyLight }}>{TotalRecovered}</td>
+          <td style={{ background: colors.healthyLight }}>{TotalRecoveredPercent}</td>
           <td style={{ background: colors.healthyLight }}>{NewRecovered ? `+${NewRecovered}` : ''}</td>
           <td style={{ background: colors.deadLight }}>{TotalDeaths}</td>
           <td style={{ background: colors.deadLight }}>{TotalDeathsPercent}</td>

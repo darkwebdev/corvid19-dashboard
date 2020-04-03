@@ -34,6 +34,12 @@ export const headers: Header[] = [
     bg: colors.healthyLight
   },
   {
+    text: '%',
+    hint: 'Recovered, as percentage of Sick',
+    key: 'TotalRecoveredPercent',
+    bg: colors.healthyLight
+  },
+  {
     text: 'New',
     hint: 'New Recovered',
     key: 'NewRecovered',
