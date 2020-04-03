@@ -21,10 +21,10 @@ const Index: FC<Props> = ({ countries = [] }) => {
     // @ts-ignore
     (country2[sorting] - country1[sorting]));
 
-  return <table>
+  return <table style={{ borderSpacing: 0 }}>
     <thead>
     <tr>
-      <HeaderColumn width="18ch" sticky={isMobile}>Country</HeaderColumn>
+      <HeaderColumn width="18ch" sticky={isMobile} align="left">Country</HeaderColumn>
       <HeaderColumn colSpan={3} color={colors.sickLight}>Sick</HeaderColumn>
       <HeaderColumn colSpan={3} color={colors.healthyLight}>Recovered</HeaderColumn>
       <HeaderColumn colSpan={3} color={colors.deadLight}>Dead</HeaderColumn>

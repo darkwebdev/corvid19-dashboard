@@ -72,7 +72,9 @@ const Summary: FC = () => {
     {summary && <>
       <p>Updated {hoursSince(summary.Date)} hours ago</p>
       <div style={{ display: isMobile ? 'block' : 'flex', alignItems: 'flex-start' }}>
-        <Table countries={calculatedCountries} />
+        <section style={{ overflow: 'scroll' }}>
+          <Table countries={calculatedCountries} />
+        </section>
         <section>
           <Suspense fallback={<p>Loading maps...</p>}>
             <MapChart title="Sick, ppl" data={mapDataSick} color={colors.sick} />

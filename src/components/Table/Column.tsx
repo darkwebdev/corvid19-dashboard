@@ -16,6 +16,7 @@ const stickyCss: CSSProperties = {
 
 export const Column: FC<ColumnProps> = ({ sticky = false, color, align, children }) => {
   const style: CSSProperties = {
+    border: '1px solid #fff',
     ...(sticky && stickyCss),
     ...(color && { background: color }),
     ...(align && { textAlign: align })
@@ -43,6 +44,7 @@ type HeaderProps = ColumnProps & {
 }
 export const HeaderColumn: FC<HeaderProps> = ({ sticky = false, color, align, width, colSpan, children }) => {
   const style: CSSProperties = {
+    border: '1px solid #fff',
     ...(sticky && stickyCss),
     ...(color && { background: color }),
     ...(align && { textAlign: align }),
