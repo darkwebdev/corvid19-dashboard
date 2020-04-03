@@ -47,15 +47,15 @@ const Index: FC<Props> = ({ countries = [] }) => {
       }, i) =>
         <tr key={i}>
           <td>{Country}</td>
-          <td style={{ background: colors.sickLight }}>{TotalConfirmed}</td>
-          <td style={{ background: colors.sickLight }}>{TotalConfirmedPercent}</td>
-          <td style={{ background: colors.sickLight }}>{NewConfirmed ? `+${NewConfirmed}` : ''}</td>
-          <td style={{ background: colors.healthyLight }}>{TotalRecovered}</td>
-          <td style={{ background: colors.healthyLight }}>{TotalRecoveredPercent}</td>
-          <td style={{ background: colors.healthyLight }}>{NewRecovered ? `+${NewRecovered}` : ''}</td>
-          <td style={{ background: colors.deadLight }}>{TotalDeaths}</td>
-          <td style={{ background: colors.deadLight }}>{TotalDeathsPercent}</td>
-          <td style={{ background: colors.deadLight }}>{NewDeaths ? `+${NewDeaths}` : ''}</td>
+          <td style={{ background: colors.sickLight, textAlign: 'right' }}>{TotalConfirmed.toLocaleString()}</td>
+          <td style={{ background: colors.sickLight, textAlign: 'center' }}>{TotalConfirmedPercent}</td>
+          <td style={{ background: colors.sickLight }}>{NewConfirmed ? `+${NewConfirmed.toLocaleString()}` : ''}</td>
+          <td style={{ background: colors.healthyLight, textAlign: 'right' }}>{TotalRecovered.toLocaleString()}</td>
+          <td style={{ background: colors.healthyLight, textAlign: 'center' }}>{TotalRecoveredPercent}</td>
+          <td style={{ background: colors.healthyLight }}>{NewRecovered ? `+${NewRecovered.toLocaleString()}` : ''}</td>
+          <td style={{ background: colors.deadLight, textAlign: 'right' }}>{TotalDeaths.toLocaleString()}</td>
+          <td style={{ background: colors.deadLight, textAlign: 'center' }}>{TotalDeathsPercent}</td>
+          <td style={{ background: colors.deadLight }}>{NewDeaths ? `+${NewDeaths.toLocaleString()}` : ''}</td>
         </tr>
       )}
     </tbody>
