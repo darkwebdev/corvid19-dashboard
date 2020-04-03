@@ -1,12 +1,13 @@
 import { hot } from 'react-hot-loader/root';
 import React, { FC, lazy, useEffect, useState, Suspense } from 'react';
 
+import { colors } from '../const';
+import { hoursSince } from '../utils';
+import { ignored } from '../data/ignored';
+import isoA2 from '../data/codes';
+import countryPopulation from '../data/population';
+import useMobile from '../useMobile';
 import Table from './Table';
-import { ignored } from './data/ignored';
-import { colors } from './const';
-import { hoursSince } from './utils';
-import isoA2 from './data/codes';
-import countryPopulation from './data/population';
 const MapChart = lazy(() => import(/* webpackChunkName: 'mapchart' */'./MapChart'));
 
 export type Country = {
@@ -34,6 +35,7 @@ const Summary: FC = () => {
   const [summary, setSummary] = useState<Summary|undefined>();
   const [error, setError] = useState<string|undefined>();
   const [loading, setLoading] = useState<boolean>(true);
+  const isMobile = useMobile();
 
   useEffect(() => {
     fetch('https://api.covid19api.com/summary')
@@ -69,7 +71,7 @@ const Summary: FC = () => {
     {loading && <p>Loading data...</p>}
     {summary && <>
       <p>Updated {hoursSince(summary.Date)} hours ago</p>
-      <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+      <div style={{ display: isMobile ? 'block' : 'flex', alignItems: 'flex-start' }}>
         <Table countries={calculatedCountries} />
         <section>
           <Suspense fallback={<p>Loading maps...</p>}>

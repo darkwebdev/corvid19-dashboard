@@ -1,4 +1,4 @@
-import { colors } from '../const';
+import { colors } from '../../const';
 import { Sorting } from '.';
 
 type Header = {

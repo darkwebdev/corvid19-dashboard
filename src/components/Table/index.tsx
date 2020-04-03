@@ -1,8 +1,11 @@
 import React, { FC, useState } from 'react';
+
+import useMobile from '../../useMobile';
+import { colors } from '../../const';
 import { Country } from '../Summary';
-import { colors } from '../const';
 import HeaderButton from './HeaderButton';
 import { headers } from './headers';
+import { Column, HealhyColumn, SickColumn, DeadColumn, HeaderColumn } from './Column';
 
 type Props = {
   countries: Country[];
@@ -12,6 +15,7 @@ export type Sorting = keyof Country;
 
 const Index: FC<Props> = ({ countries = [] }) => {
   const [sorting, setSorting] = useState<Sorting>('TotalConfirmed');
+  const isMobile = useMobile();
 
   const sortedCountries = countries.sort((country1, country2) =>
     // @ts-ignore
@@ -20,21 +24,21 @@ const Index: FC<Props> = ({ countries = [] }) => {
   return <table>
     <thead>
     <tr>
-      <th style={{ width: '18ch' }}>Country</th>
-      <th colSpan={3} style={{ background: colors.sickLight }}>Sick</th>
-      <th colSpan={3} style={{ background: colors.healthyLight }}>Recovered</th>
-      <th colSpan={3} style={{ background: colors.deadLight }}>Dead</th>
+      <HeaderColumn width="18ch" sticky={isMobile}>Country</HeaderColumn>
+      <HeaderColumn colSpan={3} color={colors.sickLight}>Sick</HeaderColumn>
+      <HeaderColumn colSpan={3} color={colors.healthyLight}>Recovered</HeaderColumn>
+      <HeaderColumn colSpan={3} color={colors.deadLight}>Dead</HeaderColumn>
     </tr>
     <tr>
-      <th />
+      <HeaderColumn sticky={isMobile} />
       {headers.map(({ hint, key, bg, text }) =>
-        <th style={{ background: bg }} key={key}>
+        <HeaderColumn color={bg} key={key}>
           <HeaderButton
             hint={hint}
             active={sorting === key}
             onClick={() => setSorting(key)}
           >{text}</HeaderButton>
-        </th>
+        </HeaderColumn>
       )}
     </tr>
     </thead>
@@ -46,16 +50,16 @@ const Index: FC<Props> = ({ countries = [] }) => {
         TotalDeaths, TotalDeathsPercent, NewDeaths
       }, i) =>
         <tr key={i}>
-          <td>{Country}</td>
-          <td style={{ background: colors.sickLight, textAlign: 'right' }}>{TotalConfirmed.toLocaleString()}</td>
-          <td style={{ background: colors.sickLight, textAlign: 'center' }}>{TotalConfirmedPercent}</td>
-          <td style={{ background: colors.sickLight }}>{NewConfirmed ? `+${NewConfirmed.toLocaleString()}` : ''}</td>
-          <td style={{ background: colors.healthyLight, textAlign: 'right' }}>{TotalRecovered.toLocaleString()}</td>
-          <td style={{ background: colors.healthyLight, textAlign: 'center' }}>{TotalRecoveredPercent}</td>
-          <td style={{ background: colors.healthyLight }}>{NewRecovered ? `+${NewRecovered.toLocaleString()}` : ''}</td>
-          <td style={{ background: colors.deadLight, textAlign: 'right' }}>{TotalDeaths.toLocaleString()}</td>
-          <td style={{ background: colors.deadLight, textAlign: 'center' }}>{TotalDeathsPercent}</td>
-          <td style={{ background: colors.deadLight }}>{NewDeaths ? `+${NewDeaths.toLocaleString()}` : ''}</td>
+          <Column sticky={isMobile}>{Country}</Column>
+          <SickColumn align="right">{TotalConfirmed.toLocaleString()}</SickColumn>
+          <SickColumn align="center">{TotalConfirmedPercent}</SickColumn>
+          <SickColumn>{NewConfirmed ? `+${NewConfirmed.toLocaleString()}` : ''}</SickColumn>
+          <HealhyColumn align="right">{TotalRecovered.toLocaleString()}</HealhyColumn>
+          <HealhyColumn align="center">{TotalRecoveredPercent}</HealhyColumn>
+          <HealhyColumn>{NewRecovered ? `+${NewRecovered.toLocaleString()}` : ''}</HealhyColumn>
+          <DeadColumn align="right">{TotalDeaths.toLocaleString()}</DeadColumn>
+          <DeadColumn align="center">{TotalDeathsPercent}</DeadColumn>
+          <DeadColumn>{NewDeaths ? `+${NewDeaths.toLocaleString()}` : ''}</DeadColumn>
         </tr>
       )}
     </tbody>
