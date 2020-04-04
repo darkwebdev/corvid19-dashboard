@@ -1,5 +1,7 @@
 export const ignored: string[] =
   [
+    ' Azerbaijan',
+    'Czech Republic',
     'Iran (Islamic Republic of)',
     'Korea, South',
     'Republic of Korea',
@@ -7,6 +9,7 @@ export const ignored: string[] =
     'Taiwan*',
     'Viet Nam',
     'Kosovo',
+    'Republic of Kosovo',
     'West Bank and Gaza',
     'Others',
     'Cruise Ship',

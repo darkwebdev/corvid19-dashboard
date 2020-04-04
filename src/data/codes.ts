@@ -902,6 +902,11 @@ const countryCodes: Codes[] = [
     "alpha2": "MK"
   },
   {
+    "slug": "macedonia",
+    "name": "Macedonia, Republic of ",
+    "alpha2": "MK"
+  },
+  {
     "slug": "northern-mariana-islands",
     "name": "Northern Mariana Islands",
     "alpha2": "MP"
