@@ -1,6 +1,5 @@
 import React, { FC, useState } from 'react';
 
-import useMobile from '../../useMobile';
 import { colors } from '../../const';
 import { Country } from '../Summary';
 import HeaderButton from './HeaderButton';
@@ -15,7 +14,6 @@ export type Sorting = keyof Country;
 
 const Index: FC<Props> = ({ countries = [] }) => {
   const [sorting, setSorting] = useState<Sorting>('TotalConfirmed');
-  const isMobile = useMobile();
 
   const sortedCountries = countries.sort((country1, country2) =>
     // @ts-ignore
@@ -24,13 +22,13 @@ const Index: FC<Props> = ({ countries = [] }) => {
   return <table style={{ borderSpacing: 0 }}>
     <thead>
     <tr>
-      <HeaderColumn width="18ch" sticky={isMobile} align="left">Country</HeaderColumn>
+      <HeaderColumn width="18ch" sticky align="left">Country</HeaderColumn>
       <HeaderColumn colSpan={3} color={colors.sickLight}>Sick</HeaderColumn>
       <HeaderColumn colSpan={3} color={colors.healthyLight}>Recovered</HeaderColumn>
       <HeaderColumn colSpan={3} color={colors.deadLight}>Dead</HeaderColumn>
     </tr>
     <tr>
-      <HeaderColumn sticky={isMobile} />
+      <HeaderColumn sticky />
       {headers.map(({ hint, key, bg, text }) =>
         <HeaderColumn color={bg} key={key}>
           <HeaderButton
@@ -50,7 +48,7 @@ const Index: FC<Props> = ({ countries = [] }) => {
         TotalDeaths, TotalDeathsPercent, NewDeaths
       }, i) =>
         <tr key={i}>
-          <Column sticky={isMobile}>{Country}</Column>
+          <Column sticky>{Country}</Column>
           <SickColumn align="right">{TotalConfirmed.toLocaleString()}</SickColumn>
           <SickColumn align="center">{TotalConfirmedPercent}</SickColumn>
           <SickColumn>{NewConfirmed ? `+${NewConfirmed.toLocaleString()}` : ''}</SickColumn>
