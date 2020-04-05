@@ -1,5 +1,5 @@
 import { hot } from 'react-hot-loader/root';
-import React, { FC, lazy, useEffect, useState, Suspense } from 'react';
+import React, { FC, lazy, useEffect, useState, Suspense, useReducer } from 'react';
 
 import { colors } from '../const';
 import { hoursSince } from '../utils';
@@ -9,6 +9,7 @@ import countryPopulation from '../data/population';
 import useMobile from '../useMobile';
 import Table from './Table';
 import Tabs from './Tabs';
+import Chart, { CountryData } from './Chart';
 const MapChart = lazy(() => import(/* webpackChunkName: 'mapchart' */'./MapChart'));
 
 export type Country = {
@@ -27,6 +28,12 @@ export type Country = {
   Population?: number;
 }
 
+type CountryDay = {
+  Country: string;
+  Date: string;
+  Cases: number;
+}
+
 type Summary = {
   Countries: Country[];
   Date: string;
@@ -39,6 +46,7 @@ const Summary: FC = () => {
   const [tableVisible, setTableVisible] = useState<boolean>(true);
   const [mapsVisible, setMapsVisible] = useState<boolean>(false);
   const [chartsVisible, setChartsVisible] = useState<boolean>(false);
+  const [countryHistory, setCountryHistory] = useState<CountryData[]>([]);
   const isMobile = useMobile();
 
   useEffect(() => {
@@ -50,6 +58,25 @@ const Summary: FC = () => {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    summary?.Countries.sort(sortBySick).slice(0, 6).forEach(({ Country, Slug }) => {
+      fetch(`https://api.covid19api.com/total/country/${Slug}/status/confirmed`)
+        .then(response => response.json())
+        .then((days: CountryDay[]) => {
+          const countryData: CountryData = {
+            type: 'line',
+            name: Country,
+            data: days.slice(-30).map(({ Date: date, Cases }) => [
+              new Date(date).getTime(),
+              Cases
+            ])
+          };
+          setCountryHistory(history => [...history, countryData]);
+        })
+        .catch(err => setError(String(err)))
+    })
+  }, [summary]);
 
   const filteredCountries = !summary ? [] : summary.Countries.filter(({ Country, TotalConfirmed }) =>
     !ignored.includes(Country) && TotalConfirmed > 100);
@@ -71,12 +98,17 @@ const Summary: FC = () => {
   const mapDataSickPer1 = calculatedCountries.map(({ IsoA2, TotalConfirmedPercent }) => ({ 'iso-a2': IsoA2, value: TotalConfirmedPercent }));
   const mapDataDead = calculatedCountries.map(({ IsoA2, TotalDeathsPercent }) => ({ 'iso-a2': IsoA2, value: TotalDeathsPercent }));
 
+  // console.log('history', countryHistory)
+
   const tabs = [{
     text: 'Table',
-    onClick: () => { setTableVisible(true); setMapsVisible(false); }
+    onClick: () => { setTableVisible(true); setMapsVisible(false); setChartsVisible(false); }
   },{
     text: 'Maps',
-    onClick: () => { setTableVisible(false); setMapsVisible(true); }
+    onClick: () => { setTableVisible(false); setMapsVisible(true); setChartsVisible(false); }
+  },{
+    text: 'Chart',
+    onClick: () => { setTableVisible(false); setMapsVisible(false); setChartsVisible(true); }
   }];
 
   return <>
@@ -92,19 +124,29 @@ const Summary: FC = () => {
             <Table countries={calculatedCountries} />
           </section>
         }
-        {(mapsVisible || !isMobile) &&
+        <div style={{ width: isMobile ? '100%' : '50%' }}>
+          {(chartsVisible || !isMobile) &&
           <section>
-            <Suspense fallback={<p>Loading maps...</p>}>
-              <MapChart title="Sick, ppl" data={mapDataSick} color={colors.sick}/>
-              <MapChart title="Sick, per 1% population" data={mapDataSickPer1} color={colors.sick}/>
-              <MapChart title="Dead, % of Sick" data={mapDataDead} valueSuffix='%'/>
-            </Suspense>
+            <Chart title="Sick, top countries - last 30 days" data={countryHistory} />
           </section>
-        }
+          }
+          {(mapsVisible || !isMobile) &&
+            <section>
+              <Suspense fallback={<p>Loading maps...</p>}>
+                <MapChart title="Sick, ppl" data={mapDataSick} color={colors.sick}/>
+                <MapChart title="Sick, per 1% population" data={mapDataSickPer1} color={colors.sick}/>
+                <MapChart title="Dead, % of Sick" data={mapDataDead} valueSuffix='%'/>
+              </Suspense>
+            </section>
+          }
+        </div>
       </div>
     </>}
     {error && <p>{error}</p>}
   </>;
 };
+
+const sortBySick = (country1: Country, country2: Country): number =>
+  (country2['TotalConfirmed'] - country1['TotalConfirmed']);
 
 export default hot(Summary);
