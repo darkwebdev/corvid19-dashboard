@@ -5,7 +5,7 @@ import mapData from '@highcharts/map-collection/custom/world.geo.json';
 import { colors } from '../const';
 
 type CountryData = {
-  'iso-a2'?: string;
+  code?: string;
   value?: number;
 }
 type Props = {
@@ -35,7 +35,7 @@ const MapChart: FC<Props> = ({ title, data, valueSuffix= 'ppl', color = colors.d
     series: [{
       type: 'map',
       mapData,
-      joinBy: 'iso-a2',
+      joinBy: 'code',
       data
     }]
   };

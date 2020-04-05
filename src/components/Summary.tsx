@@ -1,10 +1,9 @@
 import { hot } from 'react-hot-loader/root';
-import React, { FC, lazy, useEffect, useState, Suspense, useReducer } from 'react';
+import React, { FC, lazy, useEffect, useState, Suspense } from 'react';
 
 import { colors } from '../const';
 import { hoursSince } from '../utils';
 import { ignored } from '../data/ignored';
-import isoA2 from '../data/codes';
 import countryPopulation from '../data/population';
 import useMobile from '../useMobile';
 import Table from './Table';
@@ -15,7 +14,7 @@ const MapChart = lazy(() => import(/* webpackChunkName: 'mapchart' */'./MapChart
 export type Country = {
   Country: string;
   Slug: string;
-  IsoA2?: string;
+  CountryCode: string;
   NewConfirmed: number;
   TotalConfirmed: number;
   TotalConfirmedPercent: number;
@@ -83,8 +82,7 @@ const Summary: FC = () => {
 
   const enrichedCountries = filteredCountries.map(country => ({
     ...country,
-    IsoA2: isoA2(country.Slug, country.Country),
-    Population: countryPopulation(country.Country)
+    Population: countryPopulation[country.Country]
   }));
 
   const calculatedCountries: Country[] = enrichedCountries.map(country => ({
@@ -94,9 +92,9 @@ const Summary: FC = () => {
     TotalDeathsPercent: !country.TotalConfirmed ? 0 : Math.round((country.TotalDeaths * 100) / country.TotalConfirmed * 10) / 10,
   }));
 
-  const mapDataSick = calculatedCountries.map(({ IsoA2, TotalConfirmed }) => ({ 'iso-a2': IsoA2, value: TotalConfirmed }));
-  const mapDataSickPer1 = calculatedCountries.map(({ IsoA2, TotalConfirmedPercent }) => ({ 'iso-a2': IsoA2, value: TotalConfirmedPercent }));
-  const mapDataDead = calculatedCountries.map(({ IsoA2, TotalDeathsPercent }) => ({ 'iso-a2': IsoA2, value: TotalDeathsPercent }));
+  const mapDataSick = calculatedCountries.map(({ CountryCode, TotalConfirmed }) => ({ code: CountryCode, value: TotalConfirmed }));
+  const mapDataSickPer1 = calculatedCountries.map(({ CountryCode, TotalConfirmedPercent }) => ({ code: CountryCode, value: TotalConfirmedPercent }));
+  const mapDataDead = calculatedCountries.map(({ CountryCode, TotalDeathsPercent }) => ({ code: CountryCode, value: TotalDeathsPercent }));
 
   // console.log('history', countryHistory)
 
