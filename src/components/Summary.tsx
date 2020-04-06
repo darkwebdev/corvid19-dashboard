@@ -3,7 +3,6 @@ import React, { FC, lazy, useEffect, useState, Suspense } from 'react';
 
 import { colors } from '../const';
 import { hoursSince } from '../utils';
-import { ignored } from '../data/ignored';
 import countryPopulation from '../data/population';
 import useMobile from '../useMobile';
 import Table from './Table';
@@ -77,8 +76,8 @@ const Summary: FC = () => {
     })
   }, [summary]);
 
-  const filteredCountries = !summary ? [] : summary.Countries.filter(({ Country, TotalConfirmed }) =>
-    !ignored.includes(Country) && TotalConfirmed > 100);
+  const filteredCountries = !summary ? [] : summary.Countries.filter(({ TotalConfirmed }) =>
+    TotalConfirmed > 100);
 
   const enrichedCountries = filteredCountries.map(country => ({
     ...country,
