@@ -30,6 +30,9 @@ const Chart: FC<Props> = ({ title, data }) => {
     legend: {
       // enabled: false
     },
+    tooltip: {
+      followTouchMove: false
+    },
     chart: {
       height: 500,
       zoomType: 'x',
