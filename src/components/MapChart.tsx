@@ -8,6 +8,7 @@ type CountryData = {
   code?: string;
   value?: number;
 }
+
 type Props = {
   title: string;
   data: CountryData[];
@@ -35,7 +36,8 @@ const MapChart: FC<Props> = ({ title, data, valueSuffix= 'ppl', color = colors.d
     series: [{
       type: 'map',
       mapData,
-      joinBy: 'code',
+      // @ts-ignore
+      joinBy: ['iso-a2', 'code'],
       data
     }]
   };
