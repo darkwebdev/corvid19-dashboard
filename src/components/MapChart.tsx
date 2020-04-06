@@ -33,6 +33,13 @@ const MapChart: FC<Props> = ({ title, data, valueSuffix= 'ppl', color = colors.d
     tooltip: {
       valueSuffix
     },
+    // uncomment after bugfix release v8.0.5 (or v8.1.0)
+    // mapNavigation: {
+    //   enabled: true,
+    //   buttonOptions: {
+    //     verticalAlign: 'bottom'
+    //   }
+    // },
     series: [{
       type: 'map',
       mapData,

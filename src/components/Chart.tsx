@@ -21,6 +21,9 @@ const Chart: FC<Props> = ({ title, data }) => {
     title: {
       text: title
     },
+    subtitle: {
+      text: 'Click and drag to zoom in. Hold down shift key to pan.'
+    },
     xAxis: {
       type: 'datetime'
     },
@@ -28,7 +31,13 @@ const Chart: FC<Props> = ({ title, data }) => {
       // enabled: false
     },
     chart: {
-      height: 500
+      height: 500,
+      zoomType: 'x',
+      panning: {
+        enabled: true,
+        type: 'x'
+      },
+      panKey: 'shift'
     },
     plotOptions: {
       series: {
