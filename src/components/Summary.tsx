@@ -9,6 +9,7 @@ import Table from './Table';
 import Tabs from './Tabs';
 import Chart, { CountryData } from './Chart';
 import useSummary from '../hooks/useSummary';
+import useCountryHistory from '../hooks/useCountryHistory';
 const MapChart = lazy(() => import(/* webpackChunkName: 'mapchart' */'./MapChart'));
 
 export type Country = {
@@ -27,40 +28,16 @@ export type Country = {
   Population?: number;
 }
 
-type CountryDay = {
-  Country: string;
-  Date: string;
-  Cases: number;
-}
-
 const Summary: FC = () => {
   const [error, setError] = useState<string|undefined>();
-  const summary = useSummary(e => { setError(String(e)); }, () => { setLoading(false); });
   const [loading, setLoading] = useState<boolean>(true);
   const [tableVisible, setTableVisible] = useState<boolean>(true);
   const [mapsVisible, setMapsVisible] = useState<boolean>(false);
   const [chartsVisible, setChartsVisible] = useState<boolean>(false);
-  const [countryHistory, setCountryHistory] = useState<CountryData[]>([]);
-  const isMobile = useMobile();
 
-  useEffect(() => {
-    summary?.Countries.sort(sortBySick).slice(0, 6).forEach(({ Country, Slug }) => {
-      fetch(`https://api.covid19api.com/total/country/${Slug}/status/confirmed`)
-        .then(response => response.json())
-        .then((days: CountryDay[]) => {
-          const countryData: CountryData = {
-            type: 'line',
-            name: Country,
-            data: days.slice(-30).map(({ Date: date, Cases }) => [
-              new Date(date).getTime(),
-              Cases
-            ])
-          };
-          setCountryHistory(history => [...history, countryData]);
-        })
-        .catch(err => setError(String(err)))
-    })
-  }, [summary]);
+  const isMobile = useMobile();
+  const summary = useSummary(e => { setError(String(e)); }, () => { setLoading(false); });
+  const countryHistory = useCountryHistory(summary, e => { setError(String(e)); });
 
   const filteredCountries = !summary ? [] : summary.Countries.filter(({ TotalConfirmed }) =>
     TotalConfirmed > 100);
@@ -130,8 +107,5 @@ const Summary: FC = () => {
     {error && <p>{error}</p>}
   </>;
 };
-
-const sortBySick = (country1: Country, country2: Country): number =>
-  (country2['TotalConfirmed'] - country1['TotalConfirmed']);
 
 export default hot(Summary);

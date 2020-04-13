@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Country } from '../components/Summary';
 
-type Summary = {
+export type Summary = {
   Countries: Country[];
   Date: string;
 }
