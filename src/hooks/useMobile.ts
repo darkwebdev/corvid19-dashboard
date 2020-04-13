@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { mobileMaxWidth } from './const';
+import { mobileMaxWidth } from '../const';
 
 const useMobile = () => {
   const [isMobile, setMobile] = useState<boolean>(false);

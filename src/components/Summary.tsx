@@ -4,10 +4,11 @@ import React, { FC, lazy, useEffect, useState, Suspense } from 'react';
 import { colors } from '../const';
 import { hoursSince } from '../utils';
 import countryPopulation from '../data/population';
-import useMobile from '../useMobile';
+import useMobile from '../hooks/useMobile';
 import Table from './Table';
 import Tabs from './Tabs';
 import Chart, { CountryData } from './Chart';
+import useSummary from '../hooks/useSummary';
 const MapChart = lazy(() => import(/* webpackChunkName: 'mapchart' */'./MapChart'));
 
 export type Country = {
@@ -32,30 +33,15 @@ type CountryDay = {
   Cases: number;
 }
 
-type Summary = {
-  Countries: Country[];
-  Date: string;
-}
-
 const Summary: FC = () => {
-  const [summary, setSummary] = useState<Summary|undefined>();
   const [error, setError] = useState<string|undefined>();
+  const summary = useSummary(e => { setError(String(e)); }, () => { setLoading(false); });
   const [loading, setLoading] = useState<boolean>(true);
   const [tableVisible, setTableVisible] = useState<boolean>(true);
   const [mapsVisible, setMapsVisible] = useState<boolean>(false);
   const [chartsVisible, setChartsVisible] = useState<boolean>(false);
   const [countryHistory, setCountryHistory] = useState<CountryData[]>([]);
   const isMobile = useMobile();
-
-  useEffect(() => {
-    fetch('https://api.covid19api.com/summary')
-      .then(response => response.json())
-      .then(setSummary)
-      .catch(setError)
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
 
   useEffect(() => {
     summary?.Countries.sort(sortBySick).slice(0, 6).forEach(({ Country, Slug }) => {
