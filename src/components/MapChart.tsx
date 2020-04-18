@@ -14,9 +14,10 @@ type Props = {
   data: CountryData[];
   valueSuffix?: string;
   color?: string;
+  colorAxisMax?: number;
 }
 
-const MapChart: FC<Props> = ({ title, data, valueSuffix= 'ppl', color = colors.dead }) => {
+const MapChart: FC<Props> = ({ title, data, valueSuffix= 'ppl', color = colors.dead, colorAxisMax }) => {
   const colorAxisType = data.some(({ value }) => !value) ? 'linear' : 'logarithmic';
   const options: Highcharts.Options = {
     title: {
@@ -28,7 +29,8 @@ const MapChart: FC<Props> = ({ title, data, valueSuffix= 'ppl', color = colors.d
         [0, '#fff'],
         // [0.5, color+'66'],
         [1, color]
-      ]
+      ],
+      max: colorAxisMax
     },
     tooltip: {
       valueSuffix

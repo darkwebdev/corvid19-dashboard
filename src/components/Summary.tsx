@@ -1,13 +1,12 @@
 import { hot } from 'react-hot-loader/root';
-import React, { FC, lazy, useEffect, useState, Suspense } from 'react';
+import React, { FC, lazy, useState, Suspense } from 'react';
 
 import { colors } from '../const';
-import { hoursSince } from '../utils';
 import countryPopulation from '../data/population';
 import useMobile from '../hooks/useMobile';
 import Table from './Table';
 import Tabs from './Tabs';
-import Chart, { CountryData } from './Chart';
+import Chart from './Chart';
 import useSummary from '../hooks/useSummary';
 import useCountryHistory from '../hooks/useCountryHistory';
 const MapChart = lazy(() => import(/* webpackChunkName: 'mapchart' */'./MapChart'));
@@ -76,8 +75,6 @@ const Summary: FC = () => {
   return <>
     {loading && <p>Loading data...</p>}
     {summary && <>
-      <p>Updated {hoursSince(summary.Date)} minutes ago</p>
-
       {isMobile && <Tabs tabs={tabs}/>}
 
       <div style={{ display: isMobile ? 'block' : 'flex', alignItems: 'flex-start' }}>
@@ -96,7 +93,7 @@ const Summary: FC = () => {
             <section>
               <Suspense fallback={<p>Loading maps...</p>}>
                 <MapChart title="Sick, ppl" data={mapDataSick} color={colors.sick}/>
-                <MapChart title="Sick, per 1% population" data={mapDataSickPer1} color={colors.sick}/>
+                <MapChart title="Sick, per 1% population" data={mapDataSickPer1} color={colors.sick} colorAxisMax={30}/>
                 <MapChart title="Dead, % of Sick" data={mapDataDead} valueSuffix='%'/>
               </Suspense>
             </section>
