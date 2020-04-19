@@ -17,9 +17,12 @@ const Country: FC = () => {
     <section>
       {loading && <p>Loading data...</p>}
       {error && <p>{error}</p>}
-      <Chart title={`Sick in ${slug}`} data={countryHistory} />
+      <Chart title={`History for ${pascalize(slug.replace('-', ' '))}`} data={countryHistory} />
     </section>
   </>;
 }
+
+const pascalize = (str: string) =>
+  str.replace(/(\w)(\w*)/g, function(g0,g1,g2){return g1.toUpperCase() + g2.toLowerCase();});
 
 export default Country;
