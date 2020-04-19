@@ -28,6 +28,7 @@ const Chart: FC<Props> = ({ title, data }) => {
       // enabled: false
     },
     tooltip: {
+      shared: true,
       followTouchMove: false
     },
     chart: {
