@@ -12,7 +12,7 @@ type Props = {
 
 export type Sorting = keyof Country;
 
-const Index: FC<Props> = ({ countries = [] }) => {
+const Table: FC<Props> = ({ countries = [] }) => {
   const [sorting, setSorting] = useState<Sorting>('TotalConfirmed');
 
   const sortedCountries = countries.sort((country1, country2) =>
@@ -43,12 +43,13 @@ const Index: FC<Props> = ({ countries = [] }) => {
     <tbody>
       {sortedCountries.map(({
         Country,
+        Slug,
         TotalConfirmed, TotalConfirmedPercent, NewConfirmed,
         TotalRecovered, TotalRecoveredPercent, NewRecovered,
         TotalDeaths, TotalDeathsPercent, NewDeaths
       }, i) =>
         <tr key={i}>
-          <Column sticky>{Country}</Column>
+          <Column sticky><a href={`/country/${Slug}`}>{Country}</a></Column>
           <SickColumn align="right">{TotalConfirmed.toLocaleString()}</SickColumn>
           <SickColumn align="center">{TotalConfirmedPercent}</SickColumn>
           <SickColumn>{NewConfirmed ? `+${NewConfirmed.toLocaleString()}` : ''}</SickColumn>
@@ -64,4 +65,4 @@ const Index: FC<Props> = ({ countries = [] }) => {
   </table>;
 };
 
-export default Index;
+export default Table;

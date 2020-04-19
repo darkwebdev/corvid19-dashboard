@@ -1,4 +1,3 @@
-import { hot } from 'react-hot-loader/root';
 import React, { FC, lazy, useState, Suspense } from 'react';
 
 import { colors } from '../const';
@@ -8,7 +7,7 @@ import Table from './Table';
 import Tabs from './Tabs';
 import Chart from './Chart';
 import useSummary from '../hooks/useSummary';
-import useCountryHistory from '../hooks/useCountryHistory';
+import useTopCountriesHistory from '../hooks/useTopCountriesHistory';
 const MapChart = lazy(() => import(/* webpackChunkName: 'mapchart' */'./MapChart'));
 
 export type Country = {
@@ -36,7 +35,7 @@ const Summary: FC = () => {
 
   const isMobile = useMobile();
   const summary = useSummary(e => { setError(String(e)); }, () => { setLoading(false); });
-  const countryHistory = useCountryHistory(summary, e => { setError(String(e)); });
+  const topCountriesHistory = useTopCountriesHistory(summary, e => { setError(String(e)); });
 
   const filteredCountries = !summary ? [] : summary.Countries.filter(({ TotalConfirmed }) =>
     TotalConfirmed > 100);
@@ -86,7 +85,7 @@ const Summary: FC = () => {
         <div style={{ width: isMobile ? '100%' : '50%' }}>
           {(chartsVisible || !isMobile) &&
           <section>
-            <Chart title="Sick, top countries - last 30 days" data={countryHistory} />
+            <Chart title="Sick, top countries - last 30 days" data={topCountriesHistory} />
           </section>
           }
           {(mapsVisible || !isMobile) &&
@@ -105,4 +104,4 @@ const Summary: FC = () => {
   </>;
 };
 
-export default hot(Summary);
+export default Summary;

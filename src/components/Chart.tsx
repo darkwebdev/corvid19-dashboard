@@ -5,11 +5,7 @@ import HighchartsReact from 'highcharts-react-official';
 
 highchartsSeriesLabel(Highcharts);
 
-export type CountryData = {
-  type: string;
-  name: string;
-  data: [number, number][];
-}
+export type CountryData = SeriesOptionsType;
 
 type Props = {
   title: string;
@@ -25,7 +21,8 @@ const Chart: FC<Props> = ({ title, data }) => {
       text: 'Click and drag to zoom in. Hold down shift key to pan.'
     },
     xAxis: {
-      type: 'datetime'
+      type: 'datetime',
+      crosshair: true
     },
     legend: {
       // enabled: false

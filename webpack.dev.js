@@ -49,6 +49,7 @@ module.exports = merge.smart(common, {
     hot: true,
     open: true,
     contentBase: 'docs',
+    historyApiFallback: true,
     watchOptions: {
       ignored: ['node_modules', 'docs']
     }

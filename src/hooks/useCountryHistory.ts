@@ -1,42 +1,56 @@
 import { useEffect, useState } from 'react';
 import { CountryData } from '../components/Chart';
-import { Country } from '../components/Summary';
-import { Summary } from './useSummary';
-
-type CountryHistory = CountryData[]
+import { colors } from '../const';
 
 type CountryDay = {
   Country: string;
   Date: string;
-  Cases: number;
+  Confirmed: number;
+  Recovered: number;
+  Deaths: number;
 }
 
-const useCountryHistory = (summary?: Summary, onError: (e: Error) => void = () => {}) => {
-  const [ countryHistory, setCountryHistory ] = useState<CountryHistory>([]);
+const useCountryHistory = (slug: string, onError: (e: Error) => void, onFinally: () => void) => {
+  const [ countryHistory, setCountryHistory ] = useState<CountryData[]>([]);
 
   useEffect(() => {
-    summary?.Countries.sort(sortBySick).slice(0, 6).forEach(({ Country, Slug }) => {
-      fetch(`https://api.covid19api.com/total/country/${Slug}/status/confirmed`)
+    fetch(`https://api.covid19api.com/total/dayone/country/${slug}`)
         .then(response => response.json())
         .then((days: CountryDay[]) => {
-          const countryData: CountryData = {
+          const countrySickData: CountryData = {
             type: 'line',
-            name: Country,
-            data: days.slice(-30).map(({ Date: date, Cases }) => [
+            name: 'Sick',
+            color: colors.sick,
+            data: days.map(({ Date: date, Confirmed }) => [
               new Date(date).getTime(),
-              Cases
+              Confirmed
             ])
           };
-          setCountryHistory(history => [...history, countryData]);
+          const countryHealthyData: CountryData = {
+            type: 'line',
+            name: 'Healthy',
+            color: colors.healthy,
+            data: days.map(({ Date: date, Recovered }) => [
+              new Date(date).getTime(),
+              Recovered
+            ])
+          };
+          const countryDeadData: CountryData = {
+            type: 'line',
+            name: 'Dead',
+            color: colors.dead,
+            data: days.map(({ Date: date, Deaths }) => [
+              new Date(date).getTime(),
+              Deaths
+            ])
+          };
+          setCountryHistory([countrySickData, countryHealthyData, countryDeadData]);
         })
         .catch(onError)
-    })
-  }, [summary]);
+        .finally(onFinally)
+  }, []);
 
   return countryHistory;
 };
-
-const sortBySick = (country1: Country, country2: Country): number =>
-  (country2['TotalConfirmed'] - country1['TotalConfirmed']);
 
 export default useCountryHistory;
