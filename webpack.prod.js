@@ -11,6 +11,10 @@ module.exports = merge.smart(common, {
     './src/index.tsx'
   ],
 
+  output: {
+    publicPath: '/covid19-dashboard'
+  },
+
   module: {
     rules: [
       {
