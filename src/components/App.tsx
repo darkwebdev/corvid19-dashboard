@@ -9,8 +9,8 @@ const Route: FC<RouteComponentProps & { component: FC<RouteComponentProps> }> =
 
 const App: FC = () =>
   <Router>
-    <Route path="/" component={Summary} />
-    <Route path="/country/:slug" component={Country} />
+    <Route path="/covid19-dashboard" component={Summary} />
+    <Route path="/covid19-dashboard/country/:slug" component={Country} />
   </Router>
 
 export default hot(App);

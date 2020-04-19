@@ -3,7 +3,7 @@ const { resolve } = require('path');
 module.exports = {
   output: {
     path: resolve(__dirname, 'docs'),
-    publicPath: '/'
+    publicPath: '/covid19-dashboard'
   },
 
   optimization: {

@@ -5,6 +5,7 @@ import { Country } from '../Summary';
 import HeaderButton from './HeaderButton';
 import { headers } from './headers';
 import { Column, HealhyColumn, SickColumn, DeadColumn, HeaderColumn } from './Column';
+import { Link } from '@reach/router';
 
 type Props = {
   countries: Country[];
@@ -49,7 +50,7 @@ const Table: FC<Props> = ({ countries = [] }) => {
         TotalDeaths, TotalDeathsPercent, NewDeaths
       }, i) =>
         <tr key={i}>
-          <Column sticky><a href={`/country/${Slug}`}>{Country}</a></Column>
+          <Column sticky><Link to={`/covid19-dashboard/country/${Slug}`}>{Country}</Link></Column>
           <SickColumn align="right">{TotalConfirmed.toLocaleString()}</SickColumn>
           <SickColumn align="center">{TotalConfirmedPercent}</SickColumn>
           <SickColumn>{NewConfirmed ? `+${NewConfirmed.toLocaleString()}` : ''}</SickColumn>
