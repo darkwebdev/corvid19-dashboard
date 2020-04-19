@@ -8,7 +8,8 @@ import Tabs from './Tabs';
 import Chart from './Chart';
 import useSummary from '../hooks/useSummary';
 import useTopCountriesHistory from '../hooks/useTopCountriesHistory';
-const MapChart = lazy(() => import(/* webpackChunkName: 'mapchart' */'./MapChart'));
+import MapChart from './MapChart';
+// const MapChart = lazy(() => import(/* webpackChunkName: 'mapchart' */'./MapChart'));
 
 export type Country = {
   Country: string;
