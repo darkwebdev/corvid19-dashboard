@@ -3,21 +3,12 @@ import { Color, TextAlignProperty } from 'csstype';
 import { colors } from '../../const';
 
 type ColumnProps = {
-  sticky?: boolean;
   color?: Color;
   align?: TextAlignProperty
 }
 
-const stickyCss: CSSProperties = {
-  position: 'sticky',
-  left: 0,
-  background: '#fff'
-};
-
-export const Column: FC<ColumnProps> = ({ sticky = false, color, align, children }) => {
+export const Column: FC<ColumnProps> = ({ color, align, children }) => {
   const style: CSSProperties = {
-    border: '1px solid #fff',
-    ...(sticky && stickyCss),
     ...(color && { background: color }),
     ...(align && { textAlign: align })
   };
@@ -42,10 +33,8 @@ type HeaderProps = ColumnProps & {
   colSpan?: number;
   width?: string | number;
 }
-export const HeaderColumn: FC<HeaderProps> = ({ sticky = false, color, align, width, colSpan, children }) => {
+export const HeaderColumn: FC<HeaderProps> = ({ color, align, width, colSpan, children }) => {
   const style: CSSProperties = {
-    border: '1px solid #fff',
-    ...(sticky && stickyCss),
     ...(color && { background: color }),
     ...(align && { textAlign: align }),
     ...(width && { width })

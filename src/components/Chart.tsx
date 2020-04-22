@@ -38,7 +38,8 @@ const Chart: FC<Props> = ({ title, data }) => {
         enabled: true,
         type: 'x'
       },
-      panKey: 'shift'
+      panKey: 'shift',
+      styledMode: true
     },
     plotOptions: {
       series: {

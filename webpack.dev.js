@@ -1,16 +1,23 @@
 const { WatchIgnorePlugin, HotModuleReplacementPlugin } = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const merge = require('webpack-merge');
+const { join } = require('path');
 
 const common = require('./webpack.common');
 
 module.exports = merge.smart(common, {
   mode: 'development',
 
-  entry: [
-    'react-hot-loader/patch',
-    './src/index.tsx'
-  ],
+  entry: {
+    main: [
+      'react-hot-loader/patch',
+      './src/index.tsx'
+    ],
+    'hc-light': './src/highcharts-light.css',
+    'hc-dark': './src/highcharts-dark.css'
+  },
 
   resolve: {
     alias: {
@@ -28,6 +35,10 @@ module.exports = merge.smart(common, {
           experimentalFileCaching: true,
           transpileOnly: true
         }
+      },
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       }
     ]
   },
@@ -36,11 +47,13 @@ module.exports = merge.smart(common, {
     new WatchIgnorePlugin([ /\.js$/ ]),
     new HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
-      filename: 'index.html',
       template: './src/index.html',
-      chunks: ['react', 'main'],
+      chunks: ['react', 'main', 'highcharts'],
+      excludeAssets: [/hc-light/, /hc-dark/],
       hash: false
-    })
+    }),
+    new HtmlWebpackExcludeAssetsPlugin(),
+    new MiniCssExtractPlugin()
   ],
 
   devServer: {
@@ -48,7 +61,9 @@ module.exports = merge.smart(common, {
     port: 8080,
     hot: true,
     open: true,
-    contentBase: 'docs',
+    openPage: 'covid19-dashboard',
+    contentBase: join(__dirname, 'docs'),
+    // watchContentBase: true,
     historyApiFallback: true,
     watchOptions: {
       ignored: ['node_modules', 'docs']

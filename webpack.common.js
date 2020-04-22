@@ -14,6 +14,12 @@ module.exports = {
           name: 'react',
           chunks: 'all',
           reuseExistingChunk: true
+        },
+        highcharts: {
+          test: /node_modules\/highcharts/,
+          name: 'highcharts',
+          chunks: 'all',
+          reuseExistingChunk: true
         }
       }
     }

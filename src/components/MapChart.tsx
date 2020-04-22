@@ -30,10 +30,18 @@ const MapChart: FC<Props> = ({ title, data, valueSuffix= 'ppl', color = colors.d
         // [0.5, color+'66'],
         [1, color]
       ],
-      max: colorAxisMax
+      max: colorAxisMax,
+      labels: {
+        style: {
+          textOverflow: 'none'
+        }
+      }
     },
     tooltip: {
       valueSuffix
+    },
+    chart: {
+      styledMode: true
     },
     // uncomment after bugfix release v8.0.5 (or v8.1.0)
     // mapNavigation: {

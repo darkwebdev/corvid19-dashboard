@@ -23,13 +23,13 @@ const Table: FC<Props> = ({ countries = [] }) => {
   return <table style={{ borderSpacing: 0 }}>
     <thead>
     <tr>
-      <HeaderColumn width="18ch" sticky align="left">Country</HeaderColumn>
+      <HeaderColumn width="18ch" align="left">Country</HeaderColumn>
       <HeaderColumn colSpan={3} color={colors.sickLight}>Sick</HeaderColumn>
       <HeaderColumn colSpan={3} color={colors.healthyLight}>Recovered</HeaderColumn>
       <HeaderColumn colSpan={3} color={colors.deadLight}>Dead</HeaderColumn>
     </tr>
     <tr>
-      <HeaderColumn sticky />
+      <HeaderColumn />
       {headers.map(({ hint, key, bg, text }) =>
         <HeaderColumn color={bg} key={key}>
           <HeaderButton
@@ -50,7 +50,7 @@ const Table: FC<Props> = ({ countries = [] }) => {
         TotalDeaths, TotalDeathsPercent, NewDeaths
       }, i) =>
         <tr key={i}>
-          <Column sticky><Link to={`/covid19-dashboard/country/${Slug}`}>{Country}</Link></Column>
+          <Column><Link to={`/covid19-dashboard/country/${Slug}`}>{Country}</Link></Column>
           <SickColumn align="right">{TotalConfirmed.toLocaleString()}</SickColumn>
           <SickColumn align="center">{TotalConfirmedPercent}</SickColumn>
           <SickColumn>{NewConfirmed ? `+${NewConfirmed.toLocaleString()}` : ''}</SickColumn>
