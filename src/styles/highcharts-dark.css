@@ -1,0 +1,273 @@
+/* Axes */
+.highcharts-axis-line {
+  stroke: var(--grey);
+}
+
+.highcharts-grid-line {
+  stroke: var(--grey);
+}
+
+.highcharts-tick {
+  stroke: var(--grey);
+}
+
+.highcharts-minor-grid-line {
+  stroke: #505053;
+}
+
+.highcharts-crosshair-thin {
+  stroke: var(--grey);
+}
+
+.highcharts-crosshair-category {
+  stroke: var(--grey);
+}
+
+/* Series options */
+/* Default colors */
+
+.highcharts-color-1 {
+  fill: var(--white);
+  stroke: var(--white);
+}
+
+.highcharts-data-label text, text.highcharts-data-label {
+  fill: #B0B0B3;
+}
+
+.highcharts-series:not(.highcharts-pie-series) .highcharts-point-select,
+.highcharts-markers .highcharts-point-select {
+  fill: var(--grey);
+  stroke: #fff;
+}
+
+.highcharts-treemap-series .highcharts-point {
+  stroke: #707073;
+}
+
+.highcharts-treemap-series .highcharts-point-hover {
+  stroke: var(--grey);
+}
+
+.highcharts-lollipop-stem {
+  stroke: #fff;
+}
+
+/* Legend */
+.highcharts-legend-item-hidden * {
+  fill: var(--grey) !important;
+  stroke: var(--grey) !important;
+}
+
+.highcharts-legend-nav-active {
+  fill: var(--white);
+}
+
+.highcharts-legend-nav-inactive {
+  fill: var(--grey);
+}
+
+/* Bubble legend */
+
+.highcharts-bubble-legend-labels {
+  fill: var(--white);
+}
+
+/* Plot bands and polar pane backgrounds */
+.highcharts-plot-line {
+  stroke: var(--grey);
+}
+
+/* Highcharts More and modules */
+.highcharts-gauge-series .highcharts-data-label-box {
+  stroke: var(--grey);
+}
+
+.highcharts-venn-series .highcharts-point {
+  stroke: var(--grey);
+}
+
+.highcharts-venn-series .highcharts-point-hover {
+  stroke: var(--grey);
+}
+
+/* Highstock */
+.highcharts-navigator-mask-inside {
+  fill: rgba(255, 255, 255, 0.1);
+}
+
+/*.highcharts-navigator-outline {
+  stroke: var(--grey);
+}*/
+
+.highcharts-navigator-handle {
+  stroke: var(--grey);
+  fill: #505053;
+}
+
+.highcharts-navigator .highcharts-navigator-handle {
+  stroke: #aaa;
+  fill: var(--grey);
+}
+
+.highcharts-yaxis-grid {
+  stroke-width: 1px;
+}
+
+.highcharts-navigator-xaxis .highcharts-grid-line {
+  stroke: #707073;
+}
+
+.highcharts-navigator .highcharts-navigator-xaxis .highcharts-grid-line {
+  stroke: #505053;
+}
+
+.highcharts-navigator-xaxis.highcharts-axis-labels {
+  fill: var(--grey);
+}
+
+.highcharts-scrollbar-thumb {
+  fill: var(--grey);
+  stroke: var(--grey);
+}
+
+.highcharts-scrollbar-button {
+  fill: #707073;
+  stroke: var(--grey);
+}
+
+.highcharts-scrollbar .highcharts-scrollbar-button {
+  stroke: var(--grey);
+  fill: var(--grey);
+}
+
+.highcharts-scrollbar-arrow {
+  fill: var(--white);
+}
+
+.highcharts-scrollbar .highcharts-scrollbar-arrow {
+  fill: #CCC;
+}
+
+.highcharts-scrollbar-rifles {
+  stroke: var(--white);
+}
+
+.highcharts-scrollbar .highcharts-scrollbar-rifles {
+  stroke: #fff;
+}
+
+.highcharts-scrollbar-track {
+  fill: #404043;
+  stroke: #404043;
+}
+
+.highcharts-scrollbar .highcharts-scrollbar-thumb {
+  fill: #808083;
+  stroke: #808083;
+}
+
+.highcharts-contextbutton .highcharts-button-symbol {
+  stroke: #DDDDDD;
+}
+
+.highcharts-button {
+  stroke: var(--grey);
+}
+
+.highcharts-button-hover {
+  fill: #707073;
+  stroke: var(--grey);
+}
+
+.highcharts-button-pressed {
+  stroke: var(--grey);
+}
+
+.highcharts-button-disabled text {
+  fill: var(--grey);
+}
+
+.highcharts-range-selector-buttons text {
+  fill: silver;
+}
+
+.highcharts-range-label text {
+  fill: var(--white);
+}
+
+.highcharts-range-input text {
+  fill: silver;
+}
+
+.highcharts-range-input {
+  stroke: #505053;
+}
+
+.highcharts-flags-series .highcharts-point .highcharts-label-box {
+  stroke: var(--grey);
+  fill: var(--black);
+}
+
+.highcharts-flags-series .highcharts-point-hover .highcharts-label-box {
+  stroke: var(--white);
+  fill: #707073;
+}
+
+/* Highmaps */
+.highcharts-map-series .highcharts-point {
+  stroke: var(--grey);
+}
+
+.highcharts-coloraxis-marker {
+  fill: var(--grey);
+}
+
+/* Exporting module */
+.highcharts-contextbutton {
+  fill: #505053;
+}
+
+.highcharts-contextbutton:hover {
+  fill: #707073;
+  stroke: #707073;
+}
+
+.highcharts-button-symbol {
+  stroke: var(--white);
+}
+
+.highcharts-contextbutton .highcharts-button-symbol {
+  stroke: #DDDDDD;
+}
+
+.highcharts-menu {
+  border-color: var(--grey);
+}
+
+/* Drilldown module */
+
+.highcharts-drilldown-data-label text,
+text.highcharts-drilldown-data-label,
+.highcharts-drilldown-axis-label {
+  fill: var(--white);
+}
+
+/* Lineargauge type series */
+.highcharts-lineargauge-target {
+  stroke: var(--white);
+}
+
+.highcharts-lineargauge-target-line {
+  stroke: var(--white);
+}
+
+/* Annotations module */
+.highcharts-annotation-label-box {
+  stroke: #fff;
+  fill: #fff;
+}
+
+.highcharts-annotation-label text {
+  fill: #707073;
+}

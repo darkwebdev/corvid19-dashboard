@@ -1,19 +1,17 @@
 import React, { CSSProperties, FC } from 'react';
-import { Color, TextAlignProperty } from 'csstype';
-import { colors } from '../../const';
+import { TextAlignProperty } from 'csstype';
 
 type ColumnProps = {
-  color?: Color;
+  className?: "sick" | "healthy" | "dead";
   align?: TextAlignProperty
 }
 
-export const Column: FC<ColumnProps> = ({ color, align, children }) => {
+export const Column: FC<ColumnProps> = ({ className, align, children }) => {
   const style: CSSProperties = {
-    ...(color && { background: color }),
     ...(align && { textAlign: align })
   };
 
-  return <td style={style}>{children}</td>
+  return <td className={className} style={style}>{children}</td>
 };
 
 type ColoredColumnProps = {
@@ -21,23 +19,22 @@ type ColoredColumnProps = {
 }
 
 export const SickColumn: FC<ColoredColumnProps> = ({ align, children }) =>
-  <Column color={colors.sickLight} align={align}>{children}</Column>;
+  <Column className="sick" align={align}>{children}</Column>;
 
 export const HealhyColumn: FC<ColoredColumnProps> = ({ align, children }) =>
-  <Column color={colors.healthyLight} align={align}>{children}</Column>;
+  <Column className="healthy" align={align}>{children}</Column>;
 
 export const DeadColumn: FC<ColoredColumnProps> = ({ align, children }) =>
-  <Column color={colors.deadLight} align={align}>{children}</Column>;
+  <Column className="dead" align={align}>{children}</Column>;
 
 type HeaderProps = ColumnProps & {
   colSpan?: number;
   width?: string | number;
 }
-export const HeaderColumn: FC<HeaderProps> = ({ color, align, width, colSpan, children }) => {
+export const HeaderColumn: FC<HeaderProps> = ({ className, align, width, colSpan, children }) => {
   const style: CSSProperties = {
-    ...(color && { background: color }),
     ...(align && { textAlign: align }),
     ...(width && { width })
   };
-  return <th colSpan={colSpan} style={style}>{children}</th>;
+  return <th colSpan={colSpan} className={className} style={style}>{children}</th>;
 };

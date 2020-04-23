@@ -1,9 +1,6 @@
-const { WatchIgnorePlugin, HotModuleReplacementPlugin } = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const merge = require('webpack-merge');
 const { join } = require('path');
+const merge = require('webpack-merge');
+const { WatchIgnorePlugin, HotModuleReplacementPlugin } = require('webpack');
 
 const common = require('./webpack.common');
 
@@ -15,8 +12,9 @@ module.exports = merge.smart(common, {
       'react-hot-loader/patch',
       './src/index.tsx'
     ],
-    'hc-light': './src/highcharts-light.css',
-    'hc-dark': './src/highcharts-dark.css'
+    styles: './src/styles/styles.css',
+    'hc-default': './src/styles/highcharts.css',
+    'hc-dark': './src/styles/highcharts-dark.css'
   },
 
   resolve: {
@@ -35,25 +33,13 @@ module.exports = merge.smart(common, {
           experimentalFileCaching: true,
           transpileOnly: true
         }
-      },
-      {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader']
       }
     ]
   },
 
   plugins: [
     new WatchIgnorePlugin([ /\.js$/ ]),
-    new HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin({
-      template: './src/index.html',
-      chunks: ['react', 'main', 'highcharts'],
-      excludeAssets: [/hc-light/, /hc-dark/],
-      hash: false
-    }),
-    new HtmlWebpackExcludeAssetsPlugin(),
-    new MiniCssExtractPlugin()
+    new HotModuleReplacementPlugin()
   ],
 
   devServer: {

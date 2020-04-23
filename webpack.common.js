@@ -1,4 +1,7 @@
 const { resolve } = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   output: {
@@ -27,5 +30,25 @@ module.exports = {
 
   resolve: {
     extensions: [ '.ts', '.tsx', '.js' ]
-  }
+  },
+
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
+      }
+    ]
+  },
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+      excludeAssets: [/hc-/, /styles/],
+      favicon: 'src/favicon.ico',
+      hash: false
+    }),
+    new HtmlWebpackExcludeAssetsPlugin(),
+    new MiniCssExtractPlugin()
+  ]
 };

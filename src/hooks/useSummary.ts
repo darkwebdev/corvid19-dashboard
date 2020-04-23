@@ -10,7 +10,7 @@ const useSummary = (onError: (e: Error) => void, onFinal: () => void) => {
   const [summary, setSummary] = useState<Summary | undefined>();
 
   const fetchUrl = (url: string): Promise<Summary> =>
-    fetch(url)
+    fetch(url, {cache: 'force-cache' })
       .then(response => response.json())
       .then(data => {
         setSummary(data);

@@ -57,10 +57,6 @@ const Summary: FC = () => {
   const mapDataSickPer1 = calculatedCountries.map(({ CountryCode, TotalConfirmedPercent }) => ({ code: CountryCode, value: TotalConfirmedPercent }));
   const mapDataDead = calculatedCountries.map(({ CountryCode, TotalDeathsPercent }) => ({ code: CountryCode, value: TotalDeathsPercent }));
 
-  if (summary) {
-    console.log('Last update:', new Date(summary.Date).toLocaleString());
-  }
-
   const tabs = [{
     text: 'Table',
     onClick: () => { setTableVisible(true); setMapsVisible(false); setChartsVisible(false); }

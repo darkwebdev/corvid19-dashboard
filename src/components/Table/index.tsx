@@ -1,6 +1,5 @@
 import React, { FC, useState } from 'react';
 
-import { colors } from '../../const';
 import { Country } from '../Summary';
 import HeaderButton from './HeaderButton';
 import { headers } from './headers';
@@ -24,14 +23,14 @@ const Table: FC<Props> = ({ countries = [] }) => {
     <thead>
     <tr>
       <HeaderColumn width="18ch" align="left">Country</HeaderColumn>
-      <HeaderColumn colSpan={3} color={colors.sickLight}>Sick</HeaderColumn>
-      <HeaderColumn colSpan={3} color={colors.healthyLight}>Recovered</HeaderColumn>
-      <HeaderColumn colSpan={3} color={colors.deadLight}>Dead</HeaderColumn>
+      <HeaderColumn colSpan={3} className="sick">Sick</HeaderColumn>
+      <HeaderColumn colSpan={3} className="healthy">Recovered</HeaderColumn>
+      <HeaderColumn colSpan={3} className="dead">Dead</HeaderColumn>
     </tr>
     <tr>
       <HeaderColumn />
-      {headers.map(({ hint, key, bg, text }) =>
-        <HeaderColumn color={bg} key={key}>
+      {headers.map(({ hint, key, className, text }) =>
+        <HeaderColumn className={className} key={key}>
           <HeaderButton
             hint={hint}
             active={sorting === key}
